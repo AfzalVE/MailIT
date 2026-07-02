@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-display: "Space Grotesk", sans-serif;
+  
+  --sidebar-width: 280px;
+}
+
+@layer utilities {
+  .animate-pulse-glow {
+    animation: pulseGlow 2.5s infinite ease-in-out;
+  }
+  
+  .animate-pulse-light {
+    animation: pulseLight 3s infinite ease-in-out;
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(87, 27, 193, 0.2), 0 0 15px rgba(32, 54, 189, 0.1);
+    border-color: rgba(87, 27, 193, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 12px rgba(87, 27, 193, 0.45), 0 0 25px rgba(32, 54, 189, 0.25);
+    border-color: rgba(87, 27, 193, 0.6);
+  }
+}
+
+@keyframes pulseLight {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #f8f9ff;
+  color: #0b1c30;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+

@@ -1,0 +1,36 @@
+# FastAPI
+fastapi==0.116.1
+uvicorn[standard]==0.35.0
+
+# Database
+sqlalchemy==2.0.41
+psycopg[binary]==3.2.9
+alembic==1.16.4
+
+# Validation & Configuration
+pydantic==2.11.7
+pydantic-settings==2.10.1
+email-validator==2.2.0
+python-dotenv==1.1.1
+
+# Authentication
+passlib[bcrypt]==1.7.4
+bcrypt==4.3.0
+python-jose[cryptography]==3.5.0
+python-multipart==0.0.20
+
+# AI
+groq==0.30.0
+
+# HTTP
+httpx==0.28.1
+
+# Logging
+loguru==0.7.3
+
+# Testing
+pytest==8.4.1
+
+# Development
+black==25.1.0
+isort==6.0.1

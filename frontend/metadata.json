@@ -1,0 +1,6 @@
+{
+  "name": "Aether Mail",
+  "description": "AI-Enhanced CRM & Intelligent Meeting Scheduling client with Lead Scoring Dashboard and smart summaries.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
