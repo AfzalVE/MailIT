@@ -3,7 +3,7 @@
 
 # 1. FIXED: Changed 'postgresql+psycopg://' to 'postgresql://' 
 # 2. FIXED: Ensured '?sslmode=require' is fully spelled out
-DATABASE_URL = "postgresql://neondb_owner:npg_wgxYMB8psS4E@ep-odd-heart-addo8465-pooler.c-2.us-east-1.aws.neon.tech/replyiq?sslmode=require"
+
 
 # FIXED: Define conn as None upfront so the finally block doesn't crash if connection fails
 
