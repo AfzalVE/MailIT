@@ -2,10 +2,11 @@ from datetime import datetime
 
 from sqlalchemy import (
     DateTime,
+    ForeignKey,
     Integer,
+    JSON,
     String,
     Text,
-    ForeignKey,
 )
 
 from sqlalchemy.orm import (
@@ -21,6 +22,9 @@ class Email(Base):
 
     __tablename__ = "emails"
 
+    # --------------------------------------------------
+    # Primary Key
+    # --------------------------------------------------
 
     id: Mapped[int] = mapped_column(
         Integer,
@@ -28,79 +32,130 @@ class Email(Base):
         index=True,
     )
 
+    # --------------------------------------------------
+    # Owner
+    # --------------------------------------------------
 
     user_id: Mapped[int] = mapped_column(
-        Integer,
         ForeignKey("users.id"),
         nullable=False,
         index=True,
     )
 
+    # --------------------------------------------------
+    # Gmail
+    # --------------------------------------------------
+
+    gmail_message_id: Mapped[str] = mapped_column(
+        String(255),
+        unique=True,
+        index=True,
+        nullable=False,
+    )
 
     sender: Mapped[str | None] = mapped_column(
         String(255),
         nullable=True,
     )
 
-
-    subject: Mapped[str | None] = mapped_column(
+    sender_email: Mapped[str | None] = mapped_column(
         String(255),
         nullable=True,
     )
 
+    subject: Mapped[str | None] = mapped_column(
+        String(500),
+        nullable=True,
+    )
 
     email_body: Mapped[str] = mapped_column(
         Text,
         nullable=False,
     )
 
+    # --------------------------------------------------
+    # AI Analysis
+    # --------------------------------------------------
 
-    smart_reply: Mapped[str] = mapped_column(
+    ai_summary: Mapped[str | None] = mapped_column(
         Text,
-        nullable=False,
+        nullable=True,
     )
 
-
-    sentiment: Mapped[str] = mapped_column(
-        String(50),
-        nullable=False,
-        default="Neutral",
-    )
-
-
-    category: Mapped[str] = mapped_column(
+    score: Mapped[str | None] = mapped_column(
         String(100),
-        nullable=False,
-        default="General",
+        nullable=True,
     )
 
-
-    lead_status: Mapped[str] = mapped_column(
-        String(20),
-        nullable=False,
-        default="No",
-    )
-
-
-    lead_score: Mapped[int] = mapped_column(
+    sentiment: Mapped[int] = mapped_column(
         Integer,
-        nullable=False,
         default=0,
-    )
-
-
-    lead_stage: Mapped[str] = mapped_column(
-        String(30),
         nullable=False,
-        default="None",
     )
 
+    intent: Mapped[int] = mapped_column(
+        Integer,
+        default=0,
+        nullable=False,
+    )
+
+    engagement: Mapped[int] = mapped_column(
+        Integer,
+        default=0,
+        nullable=False,
+    )
+
+    recommended_nudge: Mapped[str | None] = mapped_column(
+        Text,
+        nullable=True,
+    )
+
+    suggested_responses: Mapped[dict] = mapped_column(
+        JSON,
+        default=dict,
+        nullable=False,
+    )
+
+    # --------------------------------------------------
+    # Tracking
+    # --------------------------------------------------
+
+    is_read: Mapped[bool] = mapped_column(
+        default=False,
+        nullable=False,
+    )
+
+    is_clicked: Mapped[bool] = mapped_column(
+        default=False,
+        nullable=False,
+    )
+
+    click_count: Mapped[int] = mapped_column(
+        Integer,
+        default=0,
+        nullable=False,
+    )
+
+    # --------------------------------------------------
+    # Dates
+    # --------------------------------------------------
 
     created_at: Mapped[datetime] = mapped_column(
         DateTime,
         default=datetime.utcnow,
+        nullable=False,
     )
 
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime,
+        default=datetime.utcnow,
+        onupdate=datetime.utcnow,
+        nullable=False,
+    )
+
+    # --------------------------------------------------
+    # Relationship
+    # --------------------------------------------------
 
     user = relationship(
         "User",

@@ -34,3 +34,12 @@ pytest==8.4.1
 # Development
 black==25.1.0
 isort==6.0.1
+requests
+beautifulsoup4 
+html2text
+dompurify
+itsdangerous
+google-api-python-client 
+google-auth-httplib2 
+google-auth-oauthlib
+cryptography

@@ -53,14 +53,18 @@ export default function InboxView({ onDraftSend }: InboxViewProps) {
   useEffect(() => {
     const checkGmailAuth = async () => {
       try {
-        const data = await api.authStatus();
+        const data = await api.googleStatus();
         if (data.connected) {
           setIsGmailConnected(true);
           setGmailUserEmail(data.email);
           setActiveInboxType('gmail');
           setIsGmailLoading(true);
           const recentData = await api.getRecentEmails();
-
+          // console.log("Fetched recent Gmail emails:", recentData);
+          // console.log(activeEmail);
+          // console.log(activeEmail?.suggestedResponses);
+          // console.log(activeEmail?.suggestedResponses?.[0]);
+          // console.log(activeEmail?.suggestedResponses?.[0]?.replies);
           if (recentData.emails) {
             setEmails(recentData.emails);
             if (recentData.emails.length > 0) {
@@ -100,7 +104,10 @@ export default function InboxView({ onDraftSend }: InboxViewProps) {
     setIsGmailLoading(true);
     try {
       const data = await api.getRecentEmails();
+      console.log("Fetched recent Gmail emails:", data);
 
+      console.log(activeEmail?.suggestedResponses?.[0]);
+   
       if (data.emails) {
         setEmails(data.emails);
         if (data.emails.length > 0) {
@@ -118,7 +125,7 @@ export default function InboxView({ onDraftSend }: InboxViewProps) {
 
   const handleConnectGmail = async () => {
     try {
-      api.loginWithGoogle();
+      await api.connectGoogle();
     } catch (err) {
       console.error("Failed to connect Gmail:", err);
     }
@@ -958,24 +965,26 @@ export default function InboxView({ onDraftSend }: InboxViewProps) {
                     </h3>
 
                     <div className="space-y-3">
-                      {activeEmail.suggestedResponses.map((template, idx) => (
-                        <button
-                          key={idx}
-                          onClick={() => handleSelectTemplate(template)}
-                          className="w-full text-left p-3 rounded-lg border border-[#571bc1]/20 bg-white hover:border-[#571bc1] transition-all cursor-pointer shadow-3xs hover:shadow-2xs group"
-                          id={`inbox-suggested-reply-${idx}`}
-                        >
-                          <div className="flex items-center gap-2 mb-1.5">
-                            <Sparkles className="w-3.5 h-3.5 text-[#571bc1]" />
-                            <span className="font-mono text-[10px] font-black text-[#571bc1] uppercase tracking-wider">
-                              {template.label}
-                            </span>
-                          </div>
-                          <p className="text-xs text-[#0b1c30] line-clamp-2 leading-relaxed font-normal">
-                            {template.previewText}
-                          </p>
-                        </button>
-                      ))}
+                      {(activeEmail?.suggestedResponses[0]?.replies || []).map(
+                        (template, idx) => (
+                          <button
+                            key={idx}
+                            onClick={() => handleSelectTemplate(template)}
+                            className="w-full text-left p-3 rounded-lg border border-[#571bc1]/20 bg-white hover:border-[#571bc1] transition-all cursor-pointer shadow-3xs hover:shadow-2xs group"
+                          >
+                            <div className="flex items-center gap-2 mb-1.5">
+                              <Sparkles className="w-3.5 h-3.5 text-[#571bc1]" />
+                              <span className="font-mono text-[10px] font-black text-[#571bc1] uppercase tracking-wider">
+                                {template.subject}
+                              </span>
+                            </div>
+
+                            <p className="text-xs text-[#0b1c30] line-clamp-2 leading-relaxed font-normal">
+                              {template.body}
+                            </p>
+                          </button>
+                        )
+                      )}
                     </div>
                   </div>
                 )

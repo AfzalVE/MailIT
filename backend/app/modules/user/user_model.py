@@ -58,3 +58,12 @@ class User(Base):
         back_populates="user",
         cascade="all, delete",
     )
+    oauth_accounts = relationship(
+    "OAuthAccount",
+    back_populates="user",
+    cascade="all, delete-orphan",
+)
+    oauth_states = relationship(
+    "OAuthState",
+    cascade="all, delete-orphan",
+)

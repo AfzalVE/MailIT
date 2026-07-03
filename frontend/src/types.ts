@@ -49,7 +49,7 @@ export interface Email {
 
   // Used for Inbox badges
   score: string;
- bodyHtml?: string;
+  bodyHtml?: string;
   aiSummary: string;
 
   isRead: boolean;

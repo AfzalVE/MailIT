@@ -15,9 +15,17 @@ class Settings(BaseSettings):
 
     PORT: int = 8000
 
+    BACKEND_URL: str 
+    #google OAuth2
+    GOOGLE_CLIENT_ID: str
+    GOOGLE_CLIENT_SECRET: str
+    GOOGLE_PROJECT_ID:str
+    GOOGLE_TOKEN_KEY: str
+    OAUTH_STATE_SECRET: str
+
     # Neon PostgreSQL
     DATABASE_URL: str
-
+    FRONTEND_URL: str
     SECRET_KEY: str
 
     GROQ_API_KEY: str

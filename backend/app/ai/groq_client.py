@@ -2,40 +2,72 @@ import json
 
 from groq import Groq
 
-from app.ai.prompt_builder import EMAIL_ANALYZER_PROMPT
 from app.core.config import settings
 
+
 client = Groq(
-    api_key=settings.GROQ_API_KEY
+    api_key=settings.GROQ_API_KEY,
 )
 
 
 class GroqClient:
 
-    MODEL = "llama-3.3-70b-versatile"
+    MODEL = "llama-3.1-8b-instant"
 
-    @staticmethod
-    def analyze_email(email: str) -> dict:
+    @classmethod
+    def generate_json(
+        cls,
+        system_prompt: str,
+        user_prompt: str,
+        temperature: float = 0.2,
+    ) -> dict:
 
         completion = client.chat.completions.create(
-            model=GroqClient.MODEL,
+            model=cls.MODEL,
+            temperature=temperature,
+            response_format={
+                "type": "json_object",
+            },
             messages=[
                 {
                     "role": "system",
-                    "content": EMAIL_ANALYZER_PROMPT,
+                    "content": system_prompt,
                 },
                 {
                     "role": "user",
-                    "content": email,
+                    "content": user_prompt,
                 },
             ],
-            temperature=0.3,
-            response_format={"type": "json_object"},
         )
 
         return json.loads(
             completion.choices[0].message.content
         )
+
+    @classmethod
+    def generate_text(
+        cls,
+        system_prompt: str,
+        user_prompt: str,
+        temperature: float = 0.4,
+    ) -> str:
+
+        completion = client.chat.completions.create(
+            model=cls.MODEL,
+            temperature=temperature,
+            messages=[
+                {
+                    "role": "system",
+                    "content": system_prompt,
+                },
+                {
+                    "role": "user",
+                    "content": user_prompt,
+                },
+            ],
+        )
+
+        return completion.choices[0].message.content
 
 
 groq_client = GroqClient()

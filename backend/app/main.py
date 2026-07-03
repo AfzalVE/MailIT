@@ -12,6 +12,7 @@ from app.modules.auth import router as auth_router
 from app.modules.email import router as email_router
 from app.modules.user import router as user_router
 from app.modules.gmail import gmail_router
+from app.modules.oauth import router as oauth_router
 
 # Import models so SQLAlchemy registers them
 from app.modules.user.user_model import User
@@ -55,7 +56,7 @@ app.include_router(auth_router)
 app.include_router(email_router)
 app.include_router(user_router)
 app.include_router(gmail_router)
-
+app.include_router(oauth_router)
 
 @app.on_event("startup")
 def startup():

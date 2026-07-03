@@ -17,7 +17,7 @@ export default function App() {
     return saved ? JSON.parse(saved) : null;
   });
 
-  const [activeScreen, setActiveScreen] = useState<Screen>('schedule');
+  const [activeScreen, setActiveScreen] = useState<Screen>('inbox');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isComposeOpen, setIsComposeOpen] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
